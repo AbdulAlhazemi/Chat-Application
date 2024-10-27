@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import { generateToken, setTokenCookie } from '../utils/generateToken.js'; 
 
 export const signUpUser = async (req, res) => {
   try {
@@ -27,13 +28,17 @@ export const signUpUser = async (req, res) => {
     const newUser = new User({
       fullName,
       username,
-      password: hashedPassword, // Save the hashed password
+      password: hashedPassword,
       gender,
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic
     });
 
     // Save user to the database
     await newUser.save();
+
+    // Generate token and set cookie
+    const token = generateToken(newUser._id);
+    setTokenCookie(token, res);
 
     // Respond with user details
     res.status(201).json({
@@ -48,16 +53,40 @@ export const signUpUser = async (req, res) => {
   }
 };
 
-
-export const loginUser = (req, res) => {
+export const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
+
+    // Find the user by username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    // Compare passwords
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid credentials" });
+    }
+
+    // Generate token and set cookie
+    const token = generateToken(user._id);
+    setTokenCookie(token, res);
+
+    // Respond with user details
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      username: user.username,
+      profilePic: user.profilePic
+    });
   } catch (error) {
-
+    console.log("Error in login controller:", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
-}
-
+};
 
 export const logoutUser = (req, res) => {
-  console.log('jkfghiuweg')
-}
+  res.clearCookie("jwt"); // Clear the cookie on logout
+  res.status(200).json({ message: "Logged out successfully" });
+};
