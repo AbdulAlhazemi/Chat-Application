@@ -14,7 +14,7 @@ Features
 
 Technologies Used
 
-	•	Front-End: React, Material-UI (MUI)
+	•	Front-End: React, Next.js
 	•	Back-End: Node.js, Express.js, Socket.io
 	•	Database: MongoDB
 	•	Authentication: JWT (JSON Web Tokens)
