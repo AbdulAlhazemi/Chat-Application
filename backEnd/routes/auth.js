@@ -3,16 +3,10 @@ import express from 'express'
 const router = express.Router();
 
 
-router.get("/api/auth/signup", (req, res) => {
-  console.log('signup route')
-})
+router.get("/api/auth/signup", signup);
 
-router.get("/api/auth/login", (req, res) => {
-  console.log('login route')
-})
+router.get("/api/auth/login", login);
 
-router.get("/api/auth/logout", (req, res) => {
-  console.log('logout route')
-})
+router.get("/api/auth/logout", logout);
 
 export default router
