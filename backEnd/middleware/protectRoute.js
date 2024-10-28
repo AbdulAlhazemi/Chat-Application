@@ -1,16 +1,16 @@
 import jwt from 'jsonwebtoken'
-import User from '../models/user.model';
+import User from '../models/user.model.js';
 
 const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookie.jwt;
     if (!token) {
-      return res.status(401).json({ error: "Unauthorised - No token provided" });
+      return res.status(401).json({ error: "Unauthorized - No token provided" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET,);
     if (!decoded) {
-      return res.status(401).json({ error: 'Unauthorised - invalide token' });
+      return res.status(401).json({ error: 'Unauthorized - invalid token' });
     }
     const user = await User.findById(decoded.userId).select('-password');
     if (!user) {
@@ -20,7 +20,7 @@ const protectRoute = async (req, res, next) => {
 
     next()
   } catch (error) {
-    console.log('Error in protectRoute middileWare:', error.massage)
+    console.log('Error in protectRoute meddleWare:', error.massage)
   }
 }
 
