@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 import authRoutes from './routes/auth.js';
+import massageRoute from './routes/massage.js';
+
 import connectToMongoDB from './db/connectToMangoDB.js';
 
 const app = express();
@@ -13,6 +15,7 @@ app.use(express.json());
 
 // Use authentication routes
 app.use('/api/auth', authRoutes);
+app.use('/api/massages', massageRoute);
 
 // Root endpoint
 app.get('/', (req, res) => {
