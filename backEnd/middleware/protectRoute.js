@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/user.model';
 
-const protectRoute = async(req, res, next) => {
+const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookie.jwt;
     if (!token) {
@@ -13,10 +13,12 @@ const protectRoute = async(req, res, next) => {
       return res.status(401).json({ error: 'Unauthorised - invalide token' });
     }
     const user = await User.findById(decoded.userId).select('-password');
-    if(!user) {
-      return res.status(404).json({ error: "User not found"})
+    if (!user) {
+      return res.status(404).json({ error: "User not found" })
     }
     req.user = user
+
+    next()
   } catch (error) {
     console.log('Error in protectRoute middileWare:', error.massage)
   }
