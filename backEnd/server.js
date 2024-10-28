@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-
+import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import massageRoute from './routes/massage.js';
 
@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 4000;
 
 // Middleware to parse JSON
 app.use(express.json());
-
+app.use(cookieParser());
 // Use authentication routes
 app.use('/api/auth', authRoutes);
 app.use('/api/massages', massageRoute);
