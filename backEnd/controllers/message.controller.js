@@ -4,36 +4,28 @@ import Message from "../models/message.model.js";
 export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
-    const { id: receivedId } = req.params;
+    const { id: receivedId } = req.params; // Changed to match schema
     const senderId = req.user._id;
 
     let conversation = await Conversation.findOne({
-      participant: { $all: [senderId, receivedId] },
+      participants: { $all: [senderId, receivedId] },
     });
 
-    // Create the conversation if it doesn't exist
     if (!conversation) {
       conversation = await Conversation.create({
-        participant: [senderId, receivedId],
-        message: [],
+        participants: [senderId, receivedId],
+        messages: [],
       });
     }
 
-    // Create the new message
+    // Creating a new message with the correct `receivedId`
     const newMessage = await Message.create({
       senderId,
-      receivedId,
+      receivedId, // Updated to `receivedId` to match schema
       message,
-      conversationId: conversation._id,
     });
 
-    // Initialize conversation.message if needed
-    if (!conversation.message) {
-      conversation.message = [];
-    }
-
-    // Add the new message ID to the conversation's message array
-    conversation.message.push(newMessage._id);
+    conversation.messages.push(newMessage._id);
     await conversation.save();
 
     res.status(201).json({ message: "Message sent successfully" });
