@@ -1,8 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/auth.js';
-import massageRoute from './routes/massage.js';
+
+import authRoutes from './routes/auth.routes.js';
+import massageRoute from './routes/massage.routes.js';
+//import userRoutes from './routes/user.routes.js';
+
 
 import connectToMongoDB from './db/connectToMangoDB.js';
 
@@ -13,8 +16,11 @@ const PORT = process.env.PORT || 4000;
 // Middleware to parse JSON
 app.use(express.json());
 app.use(cookieParser());
+
+
 app.use('/api/auth', authRoutes);
 app.use('/api/massages', massageRoute);
+//app.use('/api/users', userRoute);
 
 // Root endpoint
 app.get('/', (req, res) => {
