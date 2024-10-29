@@ -2,21 +2,21 @@ import mongoose from "mongoose";
 
 const conversationSchema = new mongoose.Schema(
   {
-    participant: [
+    participants: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
-    massage: [
+    messages: [ // Corrected 'massage' to 'messages'
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Massage',
+        ref: 'Message', // Corrected to 'Message'
         default: [],
       }
     ]
-
-  }, { timestamps: true }
+  },
+  { timestamps: true }
 );
 
 const Conversation = mongoose.model("Conversation", conversationSchema);
