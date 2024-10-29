@@ -15,7 +15,7 @@ export const sendMessage = async (req, res) => {
     if (!conversation) {
       conversation = await Conversation.create({
         participant: [senderId, receivedId],
-        message: [], // Ensure the array is initialized
+        message: [],
       });
     }
 
