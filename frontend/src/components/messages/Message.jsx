@@ -1,4 +1,6 @@
-import { useAuthContext } from "../../context/AuthContext";
+/* eslint-disable react/prop-types */
+
+import { useAuthContext } from "/src/context/context.jsx";
 import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
 

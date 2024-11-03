@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const GenderCheckbox = ({ onCheckboxChange, selectedGender }) => {
 	return (
 		<div className='flex'>

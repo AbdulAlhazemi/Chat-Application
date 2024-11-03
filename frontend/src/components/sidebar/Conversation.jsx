@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../zustand/useConversation";
 
