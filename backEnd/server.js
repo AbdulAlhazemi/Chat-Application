@@ -1,18 +1,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import path from 'path';
+
 
 import authRoutes from './routes/auth.routes.js';
 import massageRoute from './routes/massage.routes.js';
 import userRoutes from './routes/user.routes.js';
 
+
 import connectToMongoDB from './db/connectToMangoDB.js';
+
 
 const app = express();
 dotenv.config();
 
 
-//const __dirname = path.resolve();
+const __dirname = path.resolve();
 const PORT = process.env.PORT || 4000;
 
 
@@ -26,7 +30,7 @@ app.use('/api/massages', massageRoute);
 app.use('/api/users', userRoutes);
 
 
-//app.use(express.static(path.join(__dirname, "/frontend/dist")));
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 
 // Root endpoint
