@@ -1,20 +1,16 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
-// Function to generate a JWT token
-const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET, {
-    expiresIn: '15d', // Token expiration time
-  });
+const generateTokenAndSetCookie = (userId, res) => {
+	const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+		expiresIn: "15d",
+	});
+
+	res.cookie("jwt", token, {
+		maxAge: 15 * 24 * 60 * 60 * 1000, // MS
+		httpOnly: true, // prevent XSS attacks cross-site scripting attacks
+		sameSite: "strict", // CSRF attacks cross-site request forgery attacks
+		secure: process.env.NODE_ENV !== "development",
+	});
 };
 
-// Function to set the JWT token as a cookie
-const setTokenCookie = (token, res) => {
-  res.cookie("jwt", token, { // Correct cookie name
-    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days in milliseconds
-    httpOnly: true, // Prevent XSS attacks
-    sameSite: 'strict', // Prevent CSRF attacks
-    secure: process.env.NODE_ENV !== 'development'
-  });
-};
-
-export { generateToken, setTokenCookie };
+export default generateTokenAndSetCookie;
