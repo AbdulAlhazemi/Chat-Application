@@ -12,7 +12,7 @@ const app = express();
 dotenv.config();
 
 
-const __dirname = path.resolve();
+//const __dirname = path.resolve();
 const PORT = process.env.PORT || 4000;
 
 
@@ -26,7 +26,7 @@ app.use('/api/massages', massageRoute);
 app.use('/api/users', userRoutes);
 
 
-app.use(express.static(path.join(__dirname, "/frontend/dist")));
+//app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
 
 // Root endpoint
