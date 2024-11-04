@@ -2,17 +2,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-
-
 import authRoutes from './routes/auth.routes.js';
-import massageRoute from './routes/massage.routes.js';
+import massageRoutes from './routes/massage.routes.js';
 import userRoutes from './routes/user.routes.js';
-
-
+import { app, server } from "./socket/socket.js";
 import connectToMongoDB from './db/connectToMangoDB.js';
 
 
-const app = express();
 dotenv.config();
 
 
@@ -26,7 +22,7 @@ app.use(cookieParser());
 
 
 app.use('/api/auth', authRoutes);
-app.use('/api/massages', massageRoute);
+app.use('/api/massages', massageRoutes);
 app.use('/api/users', userRoutes);
 
 
@@ -40,7 +36,7 @@ app.get("*", (req, res) => {
 
 
 // Connect to MongoDB and start the server
-app.listen(PORT, () => {
-  connectToMongoDB();
-  console.log(`Server is running on http://localhost:${PORT}`);
+server.listen(PORT, () => {
+	connectToMongoDB();
+	console.log(`Server Running on port ${PORT}`);
 });
