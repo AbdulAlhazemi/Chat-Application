@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import { useAuthContext } from "./context";
 import io from "socket.io-client";
 
@@ -17,7 +17,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (authUser) {
-      const socketInstance = io("https://chat-app-yt.onrender.com", {
+      const socketInstance = io("http://localhost:4000", {
         query: {
           userId: authUser._id,
         },
