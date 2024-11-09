@@ -9,8 +9,14 @@ const MessageInput = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!message) return;
-		await sendMessage(message);
-		setMessage("");
+	
+		try {
+			await sendMessage(message);
+			setMessage("");  // Clear message input if successful
+		} catch (error) {
+			console.error("Failed to send message:", error);
+			// Optionally show a notification or message to the user
+		}
 	};
 
 	return (
